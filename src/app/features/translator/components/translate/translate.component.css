@@ -1,0 +1,10 @@
+.content {
+  display: flex;
+  margin: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.translate-button__wrapper {
+  align-self: center;
+}

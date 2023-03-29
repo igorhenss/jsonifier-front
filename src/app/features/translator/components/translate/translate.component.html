@@ -1,0 +1,52 @@
+<style>
+  :host {
+    font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
+
+<div class="toolbar" role="banner">
+  <img width="60" alt="JSON Icon" src="assets/json_icon_circle.svg"/> <h1>{{title}}</h1>
+</div>
+
+<div class="content">
+  <p-card
+    header="From JSON"
+    subheader="Here goes your original JSON"
+    [style]="{ width: '600px' }"
+  >
+    <div style="display: flex">
+      <textarea
+        pInputTextarea
+        style="flex: 1"
+        [rows]="8"
+        [(ngModel)]="originalJson"
+        [autoResize]="true"
+      ></textarea>
+    </div>
+  </p-card>
+
+  <div class="translate-button__wrapper">
+    <p-button label="Translate" (click)="translate()"></p-button>
+  </div>
+
+  <p-card
+    header="To JSON"
+    subheader="Here is your resultant JSON"
+    [style]="{ width: '600px' }"
+  >
+    <div style="display: flex">
+      <textarea
+        pInputTextarea
+        style="flex: 1"
+        [rows]="8"
+        [(ngModel)]="resultantJson"
+        [autoResize]="true"
+      ></textarea>
+    </div>
+  </p-card>
+</div>
