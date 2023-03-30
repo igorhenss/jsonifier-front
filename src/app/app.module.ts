@@ -1,10 +1,11 @@
-import { HttpBackend, HttpClient, HttpClientModule, HttpHandler, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
 import { InjectionToken, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const HTTP_NO_INTERCEPTORS = new InjectionToken('HTTP_NO_INTERCEPTORS');
 

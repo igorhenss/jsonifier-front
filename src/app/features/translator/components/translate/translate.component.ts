@@ -22,12 +22,43 @@ export class TranslateComponent implements OnInit {
   resultantJson: string = '';
   translatedForm!: FormGroup;
 
+  mappingKey: string = "";
+  mappingValue: string = "";
+  mappings: Map<string, string> = new Map();
+
   ngOnInit(): void {}
 
   title = 'Translate your JSONs (:';
 
   translate() {
     this.translateService.translate(this.originalJson);
+  }
+
+  addCurrentMapping() {
+    if (this.mappingsToAddAreValid()) {
+      this.addToMappings(this.mappingKey.trim(), this.mappingValue.trim());
+    }
+  }
+
+  private mappingsToAddAreValid(): boolean {
+    return Boolean(
+      this.mappingKey && this.mappingValue
+      && this.mappingKey.trim() && this.mappingValue.trim()
+    );
+  }
+
+  private addToMappings(key: string, value: string) {
+    this.mappings.set(key, value);
+    this.resetMappingFields();
+  }
+
+  private resetMappingFields() {
+    this.mappingKey = "";
+    this.mappingValue = "";
+  }
+
+  removeMappingForKey(key: string) {
+    this.mappings.delete(key);
   }
   
 }

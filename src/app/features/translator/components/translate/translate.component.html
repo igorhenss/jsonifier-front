@@ -9,44 +9,112 @@
   }
 </style>
 
-<div class="toolbar" role="banner">
-  <img width="60" alt="JSON Icon" src="assets/json_icon_circle.svg"/> <h1>{{title}}</h1>
-</div>
+<div class="page">
+  <div class="content">
+    <section class="mappings-section">
+      <p-card
+        header="Mappings"
+        subheader="Here goes your mappings"
+        [style]="{ width: '600px', height: '215px' }"
+      >
+        <div class="mappings-section__creation">
+          <div class="p-inputgroup mappings-section__creation--input">
+            <input pInputText
+              type="text"
+              placeholder="From Key"
+              [(ngModel)]="mappingKey"
+            />
+            <input pInputText
+              type="text"
+              placeholder="To Key"
+              [(ngModel)]="mappingValue"
+            />
+          </div>
+          <p-button icon="pi pi-arrow-right" (click)="addCurrentMapping()" />
+        </div>
+      </p-card>
 
-<div class="content">
-  <p-card
-    header="From JSON"
-    subheader="Here goes your original JSON"
-    [style]="{ width: '600px' }"
-  >
-    <div style="display: flex">
-      <textarea
-        pInputTextarea
-        style="flex: 1"
-        [rows]="8"
-        [(ngModel)]="originalJson"
-        [autoResize]="true"
-      ></textarea>
-    </div>
-  </p-card>
+      <p-divider type="solid" layout="vertical" />
 
-  <div class="translate-button__wrapper">
-    <p-button label="Translate" (click)="translate()"></p-button>
+      <p-table
+        [value]="mappings | keyvalue"
+        styleClass="p-datatable-sm"
+        [style]="{ width: '600px' }"
+        [scrollable]="true"
+        scrollHeight="215px"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>From Key</th>
+            <th>To Key</th>
+            <th style="width: 0%"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-mapping>
+          <tr>
+            <td>
+              {{ mapping.key }}
+            </td>
+            <td>
+              {{ mapping.value }}
+            </td>
+            <td style="text-align: right">
+              <p-button
+                icon="pi pi-times"
+                styleClass="p-button-sm p-button-raised p-button-text p-button-danger"
+                (click)="removeMappingForKey(mapping.key)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </section>
+
+    <p-divider type="solid" />
+
+    <section class="jsons-section">
+      <p-card
+        header="From JSON"
+        subheader="Here goes your original JSON"
+        [style]="{ width: '600px' }"
+      >
+        <div style="display: flex">
+          <textarea
+            pInputTextarea
+            style="flex: 1"
+            [rows]="8"
+            [(ngModel)]="originalJson"
+            [autoResize]="true"
+          ></textarea>
+        </div>
+      </p-card>
+
+      <div class="jsons-section__translate-button--wrapper">
+        <p-divider type="solid" layout="vertical" />
+        <p-button
+          styleClass="p-button-raised p-button-outlined"
+          (click)="translate()"
+        >
+          <img width="60" alt="JSON Icon" src="assets/favicon.svg"/>
+        </p-button>
+        <p-divider type="solid" layout="vertical" />
+      </div>
+
+      <p-card
+        header="To JSON"
+        subheader="Here is your resultant JSON"
+        [style]="{ width: '600px' }"
+      >
+        <div style="display: flex">
+          <textarea
+            pInputTextarea
+            style="flex: 1"
+            [rows]="8"
+            [(ngModel)]="resultantJson"
+            [autoResize]="true"
+          ></textarea>
+        </div>
+      </p-card>
+    </section>
   </div>
-
-  <p-card
-    header="To JSON"
-    subheader="Here is your resultant JSON"
-    [style]="{ width: '600px' }"
-  >
-    <div style="display: flex">
-      <textarea
-        pInputTextarea
-        style="flex: 1"
-        [rows]="8"
-        [(ngModel)]="resultantJson"
-        [autoResize]="true"
-      ></textarea>
-    </div>
-  </p-card>
 </div>
