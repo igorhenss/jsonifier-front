@@ -15,10 +15,29 @@
       <p-card
         header="Mappings"
         subheader="Here goes your mappings"
-        [style]="{ width: '600px', height: '215px' }"
+        [style]="{ width: '1288px' }"
       >
-        <div class="mappings-section__creation">
-          <div class="p-inputgroup mappings-section__creation--input">
+        <ng-template pTemplate="header">
+          <p-button
+            styleClass="p-button-raised p-button-outlined"
+            icon="pi pi-sync"
+            style="float: right; margin: 30px"
+            (click)="toggleMappingsModel()"
+          />
+        </ng-template>
+        
+        <div class="mappings-section__creation" *ngIf="mapWithJson">
+          <textarea
+            pInputTextarea
+            style="flex: 1"
+            [rows]="8"
+            [(ngModel)]="mappingJson"
+            [autoResize]="true"
+          ></textarea>
+        </div>
+
+        <div class="mappings-section__creation" *ngIf="!mapWithJson">
+          <div class="mappings-section__creation--mapping-pairs p-inputgroup">
             <input pInputText
               type="text"
               placeholder="From Key"
@@ -30,44 +49,48 @@
               [(ngModel)]="mappingValue"
             />
           </div>
-          <p-button icon="pi pi-arrow-right" (click)="addCurrentMapping()" />
+
+          <div class="jsons-section__translate-button--wrapper">
+            <p-divider type="solid" layout="vertical" />
+            <p-button icon="pi pi-arrow-right" (click)="addCurrentMapping()" />
+            <p-divider type="solid" layout="vertical" />
+          </div>
+          
+          <p-table
+            [value]="mappings | keyvalue"
+            [style]="{ width: '760px', height: '206px' }"
+            styleClass="p-datatable-sm"
+            class="mappings-section__list"
+            [scrollable]="true"
+            scrollHeight="206px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>From Key</th>
+                <th>To Key</th>
+                <th style="width: 0%"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-mapping>
+              <tr>
+                <td>
+                  {{ mapping.key }}
+                </td>
+                <td>
+                  {{ mapping.value }}
+                </td>
+                <td style="text-align: right">
+                  <p-button
+                    icon="pi pi-times"
+                    styleClass="p-button-sm p-button-raised p-button-text p-button-danger"
+                    (click)="removeMappingForKey(mapping.key)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
       </p-card>
-
-      <p-divider type="solid" layout="vertical" />
-
-      <p-table
-        [value]="mappings | keyvalue"
-        styleClass="p-datatable-sm"
-        [style]="{ width: '600px' }"
-        [scrollable]="true"
-        scrollHeight="215px"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>From Key</th>
-            <th>To Key</th>
-            <th style="width: 0%"></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-mapping>
-          <tr>
-            <td>
-              {{ mapping.key }}
-            </td>
-            <td>
-              {{ mapping.value }}
-            </td>
-            <td style="text-align: right">
-              <p-button
-                icon="pi pi-times"
-                styleClass="p-button-sm p-button-raised p-button-text p-button-danger"
-                (click)="removeMappingForKey(mapping.key)"
-              />
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
     </section>
 
     <p-divider type="solid" />
@@ -91,12 +114,7 @@
 
       <div class="jsons-section__translate-button--wrapper">
         <p-divider type="solid" layout="vertical" />
-        <p-button
-          styleClass="p-button-raised p-button-outlined"
-          (click)="translate()"
-        >
-          <img width="60" alt="JSON Icon" src="assets/favicon.svg"/>
-        </p-button>
+        <p-button icon="pi pi-arrow-right" (click)="translate()" />
         <p-divider type="solid" layout="vertical" />
       </div>
 

@@ -13,9 +13,8 @@ export class TranslateService {
 
   constructor(private http: HttpClient) { }
 
-  translate(originalJson: string): Observable<TreeNode> {
-    console.log(`${URL}/translate`);
-    return this.http.post<TreeNode>(`${URL}/translate`, { mappings: {}, content: originalJson });
+  translate(mappingsJson: string, originalJson: string): Observable<any> {
+    return this.http.post<any>(`${URL}/translate`, { mappings: mappingsJson, content: originalJson });
   }
 
 }

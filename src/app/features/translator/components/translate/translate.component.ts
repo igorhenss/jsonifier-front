@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from './translate.service';
 
 @Component({
   selector: 'jsonifier-translator',
   templateUrl: './translate.component.html',
   styleUrls: ['./translate.component.css'],
-  providers: [TranslateService]
 })
 export class TranslateComponent implements OnInit {
 
@@ -15,23 +13,48 @@ export class TranslateComponent implements OnInit {
   ) { }
 
   originalJson: string = '';
-  formToTranslate: FormGroup = new FormGroup({
-    originalJson: new FormControl(this.originalJson, { validators: [Validators.required, Validators.maxLength(2400)], updateOn: 'change' })
-  });
-
   resultantJson: string = '';
-  translatedForm!: FormGroup;
 
   mappingKey: string = "";
   mappingValue: string = "";
+  mappingJson: string = "";
   mappings: Map<string, string> = new Map();
+  mapWithJson: boolean = true;
 
   ngOnInit(): void {}
 
   title = 'Translate your JSONs (:';
 
+  toggleMappingsModel() {
+    this.mapWithJson = !this.mapWithJson;
+  }
+
   translate() {
-    this.translateService.translate(this.originalJson);
+    if (this.mapWithJson) {
+      this.translateWithJsonMappings();
+      return;
+    }
+    this.translateWithPairMappings();
+  }
+
+  private translateWithJsonMappings() {
+    if (this.mappingJson && this.mappingJson.trim() && this.originalJson) {
+      this.translateService.translate(this.clearJson(this.mappingJson), this.clearJson(this.originalJson))
+        .subscribe(result => this.resultantJson = JSON.stringify(result));
+    }
+  }
+
+  private translateWithPairMappings() {
+    if (this.mappings && this.originalJson) {
+      this.translateService.translate(Object.fromEntries(this.mappings).toString(), this.clearJson(this.originalJson))
+        .subscribe(result => this.resultantJson = JSON.stringify(result));
+    }
+  }
+
+  private clearJson(json: string) {
+    return json.replaceAll('\n', '')
+      .replaceAll('\t', '')
+      .replaceAll('\r', '');
   }
 
   addCurrentMapping() {

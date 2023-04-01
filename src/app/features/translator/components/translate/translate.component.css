@@ -6,20 +6,24 @@
 }
 
 .mappings-section {
-  display: flex;
-  flex: 1;
-  display: row;
   align-self: center;
 }
 
 .mappings-section__creation {
+  width: 100%;
   display: flex;
   flex-direction: row;
-  align-self: center;
+  gap: 20px;
 }
 
-.mappings-section__creation--input {
-  margin-right: 8px;
+.mappings-section__creation--mapping-pairs {
+  align-self: center;
+  width: fit-content;
+}
+
+.mappings-section__list {
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .jsons-section {
@@ -31,4 +35,12 @@
 
 .jsons-section__translate-button--wrapper {
   align-self: center;
+}
+
+th, td {
+  padding-left: 20px !important;
+}
+
+::ng-deep .p-card > .p-card-body > .p-card-content {
+  padding-bottom:  0;
 }
